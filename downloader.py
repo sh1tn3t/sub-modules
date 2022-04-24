@@ -56,7 +56,7 @@ class DownloaderMod(loader.Module):
         )
 
     async def ulf_cmd(self, app: Client, message: types.Message, args: str):
-        """Выгрузить файл (по ссылке тоже). Использование: ulf <название или путь до файла>"""
+        """Выгрузить файл (по ссылке тоже). Использование: ulf <ссылка или путь до файла>"""
         reply = message.reply_to_message
         if not (args or reply):
             return await utils.answer(
@@ -74,7 +74,7 @@ class DownloaderMod(loader.Module):
             r = await utils.run_sync(requests.get, args)
             if r.status_code != 200:
                 return await utils.answer(
-                    message, "Не удалось запрос к сайту")
+                    message, "Не удалось сделать запрос к сайту")
 
             file = io.BytesIO(r.content)
             file.name = args.split("/")[-1]
@@ -87,7 +87,7 @@ class DownloaderMod(loader.Module):
             if not os.path.exists(args):
                 return await utils.answer(
                     message, f"Такого файла не существует\n"
-                            f"Запрос был <code>{args}</code>"
+                             f"Запрос был <code>{args}</code>"
                 )
 
             file = args

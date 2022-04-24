@@ -46,44 +46,48 @@ class ChatToolsMod(loader.Module):
 
     async def invite_cmd(self, app: Client, message: types.Message, args: str):
         """Пригласить пользователя. Использование: invite <@ или ID или реплай>"""
-        reply = message.reply_to_message
+        if chat.type == "private":
+            return await utils.answer(
+                message, "<b>[ChatTools]</b> Это не чат!")
 
+        reply = message.reply_to_message
+        
         if not (args or reply):
             return await utils.answer(
-                message, "Нет аргументов или реплая")
+                message, "<b>[ChatTools]</b> Нет аргументов или реплая")
 
         try:
-            await message.chat.add_members(
+            await chat.add_members(
                 args.split() if args else reply.from_user.id)
         except errors.UserNotMutualContact:
             return await utils.answer(
-                message, "Невзаимный контакт")
+                message, "<b>[ChatTools]</b> Невзаимный контакт")
         except (errors.RPCError, Exception) as error:
             return await utils.answer(
-                message, f"Не удалось пригласить. Ошибка: {error}")
+                message, f"<b>[ChatTools]</b> Не удалось пригласить. Ошибка: {error}")
 
         return await utils.answer(
-            message, "Пользователь приглашен успешно")
+            message, "<b>[ChatTools]</b> Пользователь приглашен успешно")
 
     async def users_cmd(self, app: Client, message: types.Message, args: str):
         """Показать список пользователей. Использование: users [имя] [!doc]>"""
         chat = message.chat
         if chat.type == "private":
             return await utils.answer(
-                message, "Это не чат!")
+                message, "<b>[ChatTools]</b> Это не чат!")
 
         m = await utils.answer(
-            message, "Загружаю...")
+            message, "<b>[ChatTools]</b> Загружаю...")
 
         msg = [
             (
-                "Удалённый аккаунт" if user.user.is_deleted
-                else user.user.mention
-            ) + f" | <code>{user.user.id}</code>"
-            async for user in chat.iter_members(query=args.replace("!doc", ""))
+                "Удалённый аккаунт" if member.user.is_deleted
+                else member.user.mention
+            ) + f" | <code>{member.user.id}</code>"
+            async for member in chat.iter_members(query=args.replace("!doc", ""))
         ]
         text = (
-            f"Пользователи в \"{chat.title}\"" + (
+            f"<b>[ChatTools]</b> Пользователи в \"{chat.title}\"" + (
                 f" по запросу \"{args.replace('!doc', '')}\"" if args
                 else ""
             ) + f": {len(msg)}"
@@ -95,7 +99,7 @@ class ChatToolsMod(loader.Module):
                 m, text + f"\n\n{msg}")
 
         m = await utils.answer(
-            m, "Слишком много пользователей. Загружаю в файл...")
+            m, "<b>[ChatTools]</b> Слишком много пользователей. Загружаю в файл...")
 
         file = io.BytesIO(bytes(f"{text}\n\n{msg}"))
         file.name = f"users-{chat.id}.html"
@@ -110,21 +114,21 @@ class ChatToolsMod(loader.Module):
         chat = message.chat
         if chat.type == "private":
             return await utils.answer(
-                message, "Это не чат!")
+                message, "<b>[ChatTools]</b> Это не чат!")
 
         m = await utils.answer(
-            message, "Загружаю...")
+            message, "<b>[ChatTools]</b> Загружаю...")
 
         msg = [
             (
-                "Удалённый аккаунт" if user.user.is_deleted
-                else user.user.mention
-            ) + f" | {user.title or 'admin'} | <code>{user.user.id}</code>"
-            async for user in chat.iter_members(
+                "Удалённый аккаунт" if member.user.is_deleted
+                else member.user.mention
+            ) + f" | {member.title or 'admin'} | <code>{member.user.id}</code>"
+            async for member in chat.iter_members(
                 query=args.replace("!doc", ""), filter="administrators")
         ]
         text = (
-            f"Админы в \"{chat.title}\"" + (
+            f"<b>[ChatTools]</b> Админы в \"{chat.title}\"" + (
                 f" по запросу \"{args.replace('!doc', '')}\"" if args
                 else ""
             ) + f": {len(msg)}"
@@ -136,7 +140,7 @@ class ChatToolsMod(loader.Module):
                 m, text + f"\n\n{msg}")
 
         m = await utils.answer(
-            m, "Загружаю в файл...")
+            m, "<b>[ChatTools]</b> Загружаю в файл...")
 
         file = io.BytesIO(bytes(f"{text}\n\n{msg}"))
         file.name = f"admins-{chat.id}.html"
@@ -151,21 +155,21 @@ class ChatToolsMod(loader.Module):
         chat = message.chat
         if chat.type == "private":
             return await utils.answer(
-                message, "Это не чат!")
+                message, "<b>[ChatTools]</b> Это не чат!")
 
         m = await utils.answer(
-            message, "Загружаю...")
+            message, "<b>[ChatTools]</b> Загружаю...")
 
         msg = [
             (
-                "Удалённый аккаунт" if user.user.is_deleted
-                else user.user.mention
-            ) + f" | <code>{user.user.id}</code>"
-            async for user in chat.iter_members(
+                "Удалённый аккаунт" if member.user.is_deleted
+                else member.user.mention
+            ) + f" | <code>{member.user.id}</code>"
+            async for member in chat.iter_members(
                 query = args.replace("!doc", ""), filter = "bots")
         ]
         text = (
-            f"Боты в \"{chat.title}\"" + (
+            f"<b>[ChatTools]</b> Боты в \"{chat.title}\"" + (
                 f" по запросу \"{args.replace('!doc', '')}\"" if args
                 else ""
             ) + f": {len(msg)}"
@@ -177,7 +181,7 @@ class ChatToolsMod(loader.Module):
                 m, text + f"\n\n{msg}")
 
         m = await utils.answer(
-            m, "Загружаю в файл...")
+            m, "<b>[ChatTools]</b> Загружаю в файл...")
 
         file = io.BytesIO(bytes(f"{text}\n\n{msg}"))
         file.name = f"bots-{chat.id}.html"

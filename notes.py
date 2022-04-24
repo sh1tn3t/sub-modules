@@ -36,7 +36,7 @@ class NotesMod(loader.Module):
 
         msg = await self.db.get_data(notes[args])
         await msg.copy(
-            message.chat.id, reply_to_message_id = (
+            message.chat.id, reply_to_message_id=(
                 reply.message_id if reply else None)
         )
 
@@ -95,9 +95,9 @@ class NotesMod(loader.Module):
             return await utils.answer(
                 message, "Список заметок нет")
 
-        list_ = "\n".join(f"• <code>{note}</code>" for note in notes)
+        text = "\n".join(map("• <code>{}</code>".format, notes))
         return await utils.answer(
-            message, f"Список заметок:\n{list_}")
+            message, f"Список заметок:\n{text}")
 
     async def findnote_cmd(self, app: Client, message: types.Message, args: str):
         """Найти ссылку на заметку по названию. Использование: findnote <название>"""
