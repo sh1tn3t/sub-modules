@@ -26,11 +26,16 @@ class TagAllMod(loader.Module):
 
     async def tagall_cmd(self, app: Client, message: types.Message, args: str):
         """Начинает всех тегать. Использование: tagall [текст]"""
+        chat = message.chat
+        if chat.type == "private":
+            return await utils.answer(
+                message, "Это не чат")
+
         args = args or "говно залупное\n                пашет." 
 
         users = [
             f"<a href=\"tg://user?id={member.user.id}\">\u2060</a>"
-            async for member in message.chat.iter_members()
+            async for member in chat.iter_members()
             if not (member.user.is_bot or member.user.is_deleted)
         ]
 
