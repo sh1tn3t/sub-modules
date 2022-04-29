@@ -1,5 +1,6 @@
 admintools
 backuper
+brawlstats
 chattools
 downloader
 echo
@@ -12,4 +13,5 @@ reverse
 saver
 speedtest
 tagall
+texttools
 userdata
