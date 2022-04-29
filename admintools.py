@@ -195,6 +195,8 @@ class AdminToolsMod(loader.Module):
             return await utils.answer(
                 message, self.strings["unknown_error"])
 
+        prefix = prefix[:16] or "одмэн"
+
         await utils.answer(
             message, self.strings["promoted"].format(
                 name=html.escape(utils.get_display_name(user)),
@@ -203,7 +205,7 @@ class AdminToolsMod(loader.Module):
         )
 
         await asyncio.sleep(1)
-        return await app.set_administrator_title(chat.id, user.id, prefix[:16])
+        return await app.set_administrator_title(chat.id, user.id, prefix)
 
     async def demote_cmd(self, app: Client, message: types.Message, args: str):
         """Понизить пользователя. Использование: demote <@ или ID или реплай> [причина]"""

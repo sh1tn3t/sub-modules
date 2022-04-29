@@ -88,25 +88,27 @@ class ChatToolsMod(loader.Module):
         ]
         text = (
             f"<b>[ChatTools]</b> Пользователи в \"{chat.title}\"" + (
-                f" по запросу \"{args.replace('!doc', '')}\"" if args
+                f" по запросу \"{args.replace('!doc', '')}\"" if args and args != "!doc"
                 else ""
             ) + f": {len(msg)}"
         )
 
-        msg = "\n".join(msg)
-        if len(msg) < 4096 and "!doc" not in args:
-            return await utils.answer(
-                m, text + f"\n\n{msg}")
+        if "!doc" not in args:
+            msg = "\n".join(msg)
+            try:
+                return await utils.answer(
+                    m, text + f"\n\n{msg}")
+            except errors.MessageTooLong:
+                m = await utils.answer(
+                    m, "<b>[ChatTools]</b> Слишком много пользователей. Загружаю в файл...")
 
-        m = await utils.answer(
-            m, "<b>[ChatTools]</b> Слишком много пользователей. Загружаю в файл...")
-
-        file = io.BytesIO(bytes(f"{text}\n\n{msg}"))
+        msg = "<br>\n\n".join(msg)
+        file = io.BytesIO(bytes(f"{text}<br><br>\n\n{msg}", "utf-8"))
         file.name = f"users-{chat.id}.html"
         file.seek(0)
 
         await utils.answer(
-            message, file, caption = text)
+            message, file, doc=True, caption=text)
         return await m[-1].delete()
 
     async def admins_cmd(self, app: Client, message: types.Message, args: str):
@@ -129,25 +131,27 @@ class ChatToolsMod(loader.Module):
         ]
         text = (
             f"<b>[ChatTools]</b> Админы в \"{chat.title}\"" + (
-                f" по запросу \"{args.replace('!doc', '')}\"" if args
+                f" по запросу \"{args.replace('!doc', '')}\"" if args and args != "!doc"
                 else ""
             ) + f": {len(msg)}"
         )
 
-        msg = "\n".join(msg)
         if "!doc" not in args:
-            return await utils.answer(
-                m, text + f"\n\n{msg}")
+            msg = "\n".join(msg)
+            try:
+                return await utils.answer(
+                    m, text + f"\n\n{msg}")
+            except errors.MessageTooLong:
+                m = await utils.answer(
+                    m, "<b>[ChatTools]</b> Слишком много пользователей. Загружаю в файл...")
 
-        m = await utils.answer(
-            m, "<b>[ChatTools]</b> Загружаю в файл...")
-
-        file = io.BytesIO(bytes(f"{text}\n\n{msg}"))
+        msg = "<br>\n\n".join(msg)
+        file = io.BytesIO(bytes(f"{text}<br><br>\n\n{msg}", "utf-8"))
         file.name = f"admins-{chat.id}.html"
         file.seek(0)
 
         await utils.answer(
-            message, file, caption=text)
+            message, file, doc=True, caption=text)
         return await m[-1].delete()
 
     async def bots_cmd(self, app: Client, message: types.Message, args: str):
@@ -170,23 +174,25 @@ class ChatToolsMod(loader.Module):
         ]
         text = (
             f"<b>[ChatTools]</b> Боты в \"{chat.title}\"" + (
-                f" по запросу \"{args.replace('!doc', '')}\"" if args
+                f" по запросу \"{args.replace('!doc', '')}\"" if args and args != "!doc"
                 else ""
             ) + f": {len(msg)}"
         )
 
-        msg = "\n".join(msg)
         if "!doc" not in args:
-            return await utils.answer(
-                m, text + f"\n\n{msg}")
+            msg = "\n".join(msg)
+            try:
+                return await utils.answer(
+                    m, text + f"\n\n{msg}")
+            except errors.MessageTooLong:
+                m = await utils.answer(
+                    m, "<b>[ChatTools]</b> Слишком много пользователей. Загружаю в файл...")
 
-        m = await utils.answer(
-            m, "<b>[ChatTools]</b> Загружаю в файл...")
-
-        file = io.BytesIO(bytes(f"{text}\n\n{msg}"))
+        msg = "<br>\n\n".join(msg)
+        file = io.BytesIO(bytes(f"{text}<br><br>\n\n{msg}", "utf-8"))
         file.name = f"bots-{chat.id}.html"
         file.seek(0)
 
         await utils.answer(
-            message, file, caption=text)
+            message, file, doc=True, caption=text)
         return await m[-1].delete()
