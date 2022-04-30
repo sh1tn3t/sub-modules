@@ -66,7 +66,7 @@ class BrawlStatsMod(loader.Module):
                 if player.club else ""
             ) + (
                 "\n\n<b>Бойцы:</b>\n" + "\n".join(
-                    f"    • <b>{brawler.name}:</b> сила {brawler.power}, ранг {brawler.rank}, троеев {brawler.trophies} (макс.: {brawler.highest_trophies})"
+                    f"    • <b>{brawler.name}:</b> сила {brawler.power}, ранг {brawler.rank}, трофеев {brawler.trophies} (макс.: {brawler.highest_trophies})"
                     for brawler in player.brawlers
                 ) if len(args) > 1 else ""
             )
@@ -80,7 +80,7 @@ class BrawlStatsMod(loader.Module):
     async def bsclub_cmd(self, app: Client, message: types.Message, args: str):
         """Получить информацию о клубе. Использование: bsclub <тег> [любой аргумент - выведет только участников клуба]"""
         try:
-            client = Client_(self.db.get("BrawlStats", "token", "дурак токен укажи"), is_async=True)
+            client = BrawlStatsClient(self.db.get("BrawlStats", "token", "дурак токен укажи"), is_async=True)
         except Forbidden:
             return await utils.answer(
                 message, "<b>[BrawlStats - Error]</b> Токен не указан или указан неверно")
