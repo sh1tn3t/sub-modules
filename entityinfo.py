@@ -45,7 +45,7 @@ class EntityInfoMod(loader.Module):
 
         bio = (await app.get_chat(user.id)).bio
         text = (
-            f"<b>ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ:<b>\n\n"
+            f"<b>ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ:</b>\n\n"
             f"<b>Имя:</b> {user.first_name or ''}\n"
             f"<b>Фамилия:</b> {user.last_name or 'Пользователь не указал фамилию'}\n"
             f"<b>Юзернейм:</b> {user.username or 'Пользователь не указал юзернейм'}\n"
