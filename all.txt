@@ -4,6 +4,7 @@ brawlstats
 chattools
 downloader
 echo
+entityinfo
 kickall
 moduleslink
 notes
