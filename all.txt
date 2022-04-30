@@ -11,6 +11,7 @@ quotes
 randomreact
 reverse
 saver
+spam
 speedtest
 tagall
 texttools
