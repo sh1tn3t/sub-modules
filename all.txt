@@ -6,6 +6,7 @@ downloader
 echo
 entityinfo
 kickall
+megamozg
 moduleslink
 notes
 permalink
