@@ -46,6 +46,7 @@ class ChatToolsMod(loader.Module):
 
     async def invite_cmd(self, app: Client, message: types.Message, args: str):
         """Пригласить пользователя. Использование: invite <@ или ID или реплай>"""
+        chat = message.chat
         if chat.type == "private":
             return await utils.answer(
                 message, "<b>[ChatTools]</b> Это не чат!")
