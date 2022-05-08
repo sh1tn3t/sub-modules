@@ -5,6 +5,7 @@ chattools
 downloader
 echo
 entityinfo
+firstcomment
 kickall
 megamozg
 moduleslink
