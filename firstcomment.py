@@ -23,7 +23,7 @@ from .. import loader, utils
 @loader.module("FirstComment", "sh1tn3t")
 class FirstCommentMod(loader.Module):
     """Первый комментарий на канале"""
-        
+
     async def fcsw_cmd(self, app: Client, message: types.Message):
         """Включить/выключить режим. Использование: fcsw"""
         status = not self.db.get("FirstComment", "status")

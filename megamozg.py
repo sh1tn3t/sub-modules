@@ -46,7 +46,7 @@ class MegaMozgMod(loader.Module):
                 message, "<b>[MegaMozg]</b> Режим в этом чате был выключен.")
 
     async def mozgchance_cmd(self, app: Client, message: types.Message, args: str):
-        """Установить шанс для мозга. Использование: mozgchance [шанс (в %, от 1 до 100]>"""
+        """Установить шанс для мозга. Использование: mozgchance [шанс (в %, от 1 до 100)]"""
         chat = message.chat
         if chat.type == "private":
             return await utils.answer(

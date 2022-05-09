@@ -22,10 +22,10 @@ from .. import loader, utils
 
 @loader.module("Backuper", "sh1tn3t")
 class BackuperMod(loader.Module):
-    """Создание бекапов"""
+    """Создание бекапов базы данных"""
 
     async def backupdb_cmd(self, app: Client, message: types.Message):
-        """Создание бекапа все базы данных"""
+        """Создать бекап всей базы данных. Использование: backupdb"""
         if not os.path.exists(self.db.location):
             return await utils.answer(
                 message, "Ошибка! Файл с локальной базой данных не найден")

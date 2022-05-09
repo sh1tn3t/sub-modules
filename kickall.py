@@ -29,6 +29,14 @@ class KickAllMod(loader.Module):
             return await utils.answer(
                 message, "<b>[KickAll]</b> Это не чат")
 
+        check_me = await chat.get_member(user.id)
+        if not check_me.can_restrict_members:
+            return await utils.answer(
+                message,
+                "<b>[KickAll]</b> У меня нет прав на кик",
+                chat_id="me" if args else None
+            )
+
         if args:
             await message.delete()
 
@@ -47,9 +55,10 @@ class KickAllMod(loader.Module):
 
         if args:
             return await utils.answer(
-                message, f"<b>[KickAll]</b> В чате \"{utils.get_display_name(chat)}\" было кикнуто <b>{count}</b> участников",
+                message,
+                f"<b>[KickAll]</b> В чате \"{utils.get_display_name(chat)}\" было кикнуто <b>{count}</b> участников",
                 chat_id="me"
             )
 
         return await utils.answer(
-                message, f"<b>[KickAll]</b> Было кикнуто <b>{count}</b> участников")
+            message, f"<b>[KickAll]</b> Было кикнуто <b>{count}</b> участников")

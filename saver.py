@@ -62,6 +62,9 @@ class SaverMod(loader.Module):
 
     @loader.on(lambda _, __, m: m.outgoing and (media := utils.get_message_media(m)) and getattr(media, "ttl_seconds", None))
     async def watcher(self, app: Client, message: types.Message):
+        if not self.db.get("Saver", "status"):
+            return
+
         return await self.download_and_send(message)
 
     @loader.on(lambda _, __, m: m.outgoing and m.text == "блч")

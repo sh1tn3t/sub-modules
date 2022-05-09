@@ -24,7 +24,7 @@ from .. import loader, utils
 
 @loader.module("BrawlStats", "sh1tn3t")
 class BrawlStatsMod(loader.Module):
-    """Статистика BrawlStars"""
+    """Статистика Brawl Stars"""
 
     async def bs_token_cmd(self, app: Client, message: types.Message, args: str):
         """Токен брать на developer.brawlstars.com. Использование: bs_token <токен>"""
@@ -37,7 +37,7 @@ class BrawlStatsMod(loader.Module):
             message, "<b>[BrawlStats]</b> Токен установлен")
 
     async def bsprofile_cmd(self, app: Client, message: types.Message, args: str):
-        """Получить информацию о игроке. Использование: bsprofile <тег> [любой аргумент - выведет только всех бойцов игрока]"""
+        """Получить информацию о игроке. Использование: bsprofile <тег> [любой аргумент - + выведет бойцов игрока]"""
         try:
             client = BrawlStatsClient(self.db.get("BrawlStats", "token", "дурак токен укажи"), is_async=True)
         except Forbidden:
@@ -78,7 +78,7 @@ class BrawlStatsMod(loader.Module):
         )
 
     async def bsclub_cmd(self, app: Client, message: types.Message, args: str):
-        """Получить информацию о клубе. Использование: bsclub <тег> [любой аргумент - выведет только участников клуба]"""
+        """Получить информацию о клубе. Использование: bsclub <тег> [любой аргумент - + выведет участников клуба]"""
         try:
             client = BrawlStatsClient(self.db.get("BrawlStats", "token", "дурак токен укажи"), is_async=True)
         except Forbidden:
