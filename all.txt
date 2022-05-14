@@ -19,6 +19,7 @@ saver
 spam
 speedtest
 tagall
+terminal
 texttools
 triggers
 userdata
