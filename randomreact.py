@@ -55,7 +55,7 @@ class RandomReactMod(loader.Module):
         return await utils.answer(
             message, "👎 <b>Автоматическое выставление реакций отключено</b>")
 
-    @loader.on(filters.outgoing & filters.group)
+    @loader.on(~filters.outgoing & filters.group)
     async def watcher(self, app: Client, message: types.Message):
         """Ставит реакции"""
         chat = message.chat
