@@ -36,3 +36,20 @@ class BackuperMod(loader.Module):
 
         return await utils.answer(
             message, "Бекап базы данных успешно создан и отправлен в избранное")
+
+    async def restoredb_cmd(self, app: Client, message: types.Message):
+        """Восстановить базу данных из файла с реплая. Использование: restoredb <реплай на файл с названием db.json>"""
+        reply = message.reply_to_message
+        if (
+            not reply
+            or not reply.document
+            or reply.document.file_name != "db.json"
+        ):
+            return await utils.answer(
+                message, "Ошибка! Нет реплая на файл с названием db.json")
+
+        await reply.download("." + self.db.location)
+        return await utils.answer(
+            message, "База данных успешно восстановлена.\n"
+                     "Пропиши команду <code>restart</code>, чтобы изменения вступили в силу"
+        )
