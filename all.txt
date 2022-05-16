@@ -15,6 +15,7 @@ purge
 quotes
 randomreact
 reverse
+rpmode
 saver
 spam
 speedtest
