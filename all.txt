@@ -1,5 +1,6 @@
 admintools
 backuper
+banmedia
 brawlstats
 chattools
 downloader
