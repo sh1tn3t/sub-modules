@@ -29,7 +29,7 @@ class KickAllMod(loader.Module):
             return await utils.answer(
                 message, "<b>[KickAll]</b> Это не чат")
 
-        check_me = await chat.get_member(user.id)
+        check_me = await chat.get_member(self.all_modules.me.id)
         if not check_me.can_restrict_members:
             return await utils.answer(
                 message,
