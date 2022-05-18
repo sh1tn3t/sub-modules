@@ -22,6 +22,42 @@ from .. import loader, utils
 class RPModeMod(loader.Module):
     """РП режим"""
 
+    def __init__(self):
+        self.rps = self.db.get("RPMode", "rps", {})
+        if not self.rps:
+            self.rps.update(
+                {
+                    "чмок": "чмокнул(-а)",
+                    "чпок": "чпокнул(-а)",
+                    "поцеловать": "поцеловал(-а)",
+                    "кусь": "кусьнул(-а)",
+                    "шлеп": "шлепнул(-а)",
+                    "трахнуть": "трахнул(-а)",
+                    "выебать": "выебал(-а)",
+                    "укусить": "укусил(-а)",
+                    "шлепнуть": "шлепнул(-а)",
+                    "кусьнуть": "кусьнул(-а)",
+                    "отсосать": "отсосал(-а)",
+                    "отлизать": "отлизал(-а)",
+                    "минет": "сделал(-а) минет",
+                    "куни": "сделал(-а) куни",
+                    "прижать": "прижал(-а)",
+                    "погладить": "погладил(-а)",
+                    "засосать": "засосал(-а)",
+                    "раздеть": "раздел(-а)",
+                    "снять": "снял(-а)",
+                    "связать": "связал(-а)",
+                    "развязать": "развязал(-а)",
+                    "изнасиловать": "изнасиловал(-а)",
+                    "ударить": "ударил(-а)",
+                    "уебать": "уебал(-а)",
+                    "отпиздить": "отпиздил(-а)",
+                    "отпинать": "отпинал(-а)",
+                    "послать нахуй": "послал(-а) нахуй"
+                }
+            )
+            self.db.set("RPMode", "rps", self.rps)
+
     async def addrp_cmd(self, app: Client, message: types.Message, args: str):
         """Добавить рп-команду. Использование: addrp <команда> / <сообщение>"""
         if not args:
@@ -57,13 +93,12 @@ class RPModeMod(loader.Module):
             return await utils.answer(
                 message, "<b>[RPMode - Error]</b> ❌ Не указано действие")
 
-        rps = self.db.get("RPMode", "rps", {})
-        if cmd in rps:
+        if cmd in self.rps:
             return await utils.answer(
                 message, "<b>[RPMode - Error]</b> ❌ Такая команда уже есть")
 
-        rps[cmd] = action
-        self.db.set("RPMode", "rps", rps)
+        self.rps[cmd] = action
+        self.db.set("RPMode", "rps", self.rps)
 
         return await utils.answer(
             message, f"<b>[RPMode]</b> ✅ Команда \"<code>{cmd}</code>\" добавлена")
@@ -80,27 +115,24 @@ class RPModeMod(loader.Module):
                 message, "<b>[RPMode]</b> ✅ Все РП-команды удалены")
 
         cmd = args.lower()
-
-        rps = self.db.get("RPMode", "rps", {})
-        if cmd not in rps:
+        if cmd not in self.rps:
             return await utils.answer(
                 message, "<b>[RPMode - Error]</b> ❌ Такой команды нет")
 
-        del rps[cmd]
-        self.db.set("RPMode", "rps", rps)
+        del self.rps[cmd]
+        self.db.set("RPMode", "rps", self.rps)
 
         return await utils.answer(
             message, f"<b>[RPMode]</b> ✅ Команда \"<code>{args}</code>\" удалена")
 
     async def rps_cmd(self, app: Client, message: types.Message):
         """Список рп-команд. Использование: rps"""
-        rps = self.db.get("RPMode", "rps", {})
-        if not rps:
+        if not self.rps:
             return await utils.answer(
                 message, "<b>[RPMode - Error]</b> ❌ Нет РП-команд")
 
         text = "<b>[RPMode]</b> 📝 РП-команды:\n\n" + "\n".join(
-            f"👉 <code>{cmd}</code> - {rps[cmd]}" for cmd in rps
+            f"👉 <code>{cmd}</code> - {self.rps[cmd]}" for cmd in self.rps
         )
         return await utils.answer(
             message, text)
@@ -109,14 +141,14 @@ class RPModeMod(loader.Module):
     async def watcher(self, app: Client, message: types.Message):
         """Отслеживание рп-команд"""
         if not (
-            (rps := self.db.get("RPMode", "rps", {}))
+            self.rps
             and (reply := message.reply_to_message)
             and (m := (message.text or "").lower())
         ):
             return
 
         ms = m.split(" ")
-        matchs = list(filter(lambda rp: rp == ms[0], rps))
+        matchs = list(filter(lambda rp: rp == ms[0], self.rps))
         if not matchs:
             return
 
@@ -124,6 +156,6 @@ class RPModeMod(loader.Module):
         if len(ms) > 1:
             match += " "
 
-        rp = f"{message.from_user.mention} {rps[matchs[-1]]} {reply.from_user.mention} {m.split(match, 1)[1]}"
+        rp = f"{message.from_user.mention} {self.rps[matchs[-1]]} {reply.from_user.mention} {m.split(match, 1)[1]}"
         return await utils.answer(
             message, rp)
